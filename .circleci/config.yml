@@ -2,13 +2,25 @@ version: 2.1
 
 # Define the jobs we want to run for this project
 jobs:
-  build:
+  build_alpha:
     docker:
       - image: cimg/base:2023.03
     steps:
       - checkout
       - run: echo "this is the build job"
-  test:
+  test_alpha:
+    docker:
+      - image: cimg/base:2023.03
+    steps:
+      - checkout
+      - run: echo "this is the test job"
+  build_prod:
+    docker:
+      - image: cimg/base:2023.03
+    steps:
+      - checkout
+      - run: echo "this is the build job"
+  test_prod:
     docker:
       - image: cimg/base:2023.03
     steps:
@@ -19,5 +31,7 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - build
-      - test
+      - build_alpha
+      - test_alpha
+      - build_prod
+      - test_prod
