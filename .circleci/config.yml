@@ -1,37 +1,23 @@
 version: 2.1
-​
+
+# Define the jobs we want to run for this project
 jobs:
-  print-a-message:
+  build:
     docker:
-      - image: cimg/base:2022.03
-    parameters:
-      message:
-        type: string
+      - image: cimg/base:2023.03
     steps:
-      - run: echo << parameters.message >>
-  deploy-alpha:
+      - checkout
+      - run: echo "this is the build job"
+  test:
     docker:
-      - image: cimg/base:2022.03
-    parameters:
-      message:
-        type: string
+      - image: cimg/base:2023.03
     steps:
-      - run: echo << parameters.message >>
-  test-alpha:
-    docker:
-      - image: cimg/base:2022.03
-    parameters:
-      message:
-        type: string
-    steps:
-      - run: echo << parameters.message >>
-​
+      - checkout
+      - run: echo "this is the test job"
+
+# Orchestrate our job run sequence
 workflows:
-  my-workflow:
+  build_and_test:
     jobs:
-      - print-a-message:
-          message: Hello!
-      - deploy-alpha:
-          message: Deployed to alpha!
-      - test-alpha:
-          message: Ran tests in alpha!
+      - build
+      - test
